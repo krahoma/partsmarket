@@ -1,0 +1,27 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+#  googleCloudBuild:
+#    projectId: partsmarket-415520
+  artifacts:
+    - image: mkrekhovetskyi/auth #us.gcr.io/partsmarket-415520/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: mkrekhovetskyi/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
