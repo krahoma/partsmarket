@@ -8,10 +8,10 @@ const starUp = async () => {
     throw new Error('JWT_KEY must be defined');
   }
   try {
-    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    await mongoose.connect(process.env.MONGO_URI!);
     console.log("Connected to MongoDB");
   } catch (err) {
-    console.log(err);
+    console.log(err); 
   }
 
   app.listen(port, () => {

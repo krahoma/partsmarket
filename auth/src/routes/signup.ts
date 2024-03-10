@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 
-import { validationRequest, BadRequestError } from "@partsmarket/common";
+import { validateRequest, BadRequestError } from "@partsmarket/common";
 import { User } from "../models/user";
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage("Password must be correct"),
   ],
-  validationRequest,
+  validateRequest,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });

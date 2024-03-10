@@ -4,7 +4,7 @@ import { Password } from "../services/password";
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/user";
-import { validationRequest, BadRequestError } from "@partsmarket/common";
+import { validateRequest, BadRequestError } from "@partsmarket/common";
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.post(
       .notEmpty()
       .withMessage("You must supply a password"),
   ],
-  validationRequest,
+  validateRequest,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
