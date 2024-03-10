@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: parts-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: parts
   template:
     metadata:
       labels:
-        app: auth
+        app: parts
     spec:
       containers:
-        - name: auth
-          image: mkrekhovetskyi/auth  #us.gcr.io/partsmarket-415520/auth
+        - name: parts
+          image: mkrekhovetskyi/parts  #us.gcr.io/partsmarket-415520/parts
           env:
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://parts-mongo-srv:27017/parts'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -27,12 +27,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: parts-srv
 spec:
   selector:
-    app: auth
+    app: parts
   ports:
-    - name: auth
+    - name: parts
       protocol: TCP
       port: 3000
       targetPort: 3000

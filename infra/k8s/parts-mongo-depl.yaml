@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: parts-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: parts-mongo
+  template:
+    metadata:
+      labels:
+        app: parts-mongo
+    spec:
+      containers:
+        - name: parts-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: parts-mongo-srv
+spec:
+  selector:
+    app: parts-mongo
+  ports:
+    - name: db-parts
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

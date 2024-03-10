@@ -17,6 +17,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mkrekhovetskyi/parts #us.gcr.io/partsmarket-415520/parts
+      context: parts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     - image: mkrekhovetskyi/client
       context: client
       docker:
