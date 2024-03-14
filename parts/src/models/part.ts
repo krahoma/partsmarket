@@ -11,7 +11,7 @@ interface PartDoc extends mongoose.Document {
   title: string;
   price: number;
   quantity: number;
-  userId: String;
+  userId: string;
 }
 
 interface PartMode extends mongoose.Model<PartDoc> {

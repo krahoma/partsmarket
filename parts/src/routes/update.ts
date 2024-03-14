@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
 import { Part } from "../models/part";
-
+import { PartUpdatedPublisher } from "../events/publishers/part-updated-publisher";
+import { natsWrapper } from "../nats-wrapper";
 import { body } from "express-validator";
+
 import {
   requireAuth,
   validateRequest,
@@ -37,8 +39,14 @@ router.put(
       price: req.body.price,
       quantity: req.body.quantity,
     });
-
     await part.save();
+    new PartUpdatedPublisher(natsWrapper.client).publish({
+      id: part.id,
+      title: part.title,
+      price: part.price,
+      quantity: part.quantity,
+      userId: part.userId,
+    });
 
     res.send(part);
   }

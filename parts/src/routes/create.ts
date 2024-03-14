@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@partsmarket/common";
 import { Part } from "../models/part";
+import { PartCreatedPublisher } from "../events/publishers/part-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -26,6 +28,13 @@ router.post(
     });
 
     await part.save();
+    await new PartCreatedPublisher(natsWrapper.client).publish({
+      id: part.id,
+      title: part.title,
+      price: part.price,
+      quantity: part.quantity,
+      userId: part.userId,
+    });
     res.status(201).send(part);
   }
 );

@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
 import { Part } from "../../models/part";
+import { natsWrapper } from "../../nats-wrapper";
 
 it("has a route handler listening to /api/parts for post requests", async () => {
   const response = await request(app).post("/api/parts").send({});
@@ -104,4 +105,20 @@ it("creates a part with valid inputs", async () => {
   expect(parts.length).toEqual(1);
   expect(parts[0].price).toEqual(15);
   expect(parts[0].title).toEqual(title);
+});
+
+it("publishes an event", async () => {
+  const title = "Part description";
+
+  await request(app)
+    .post("/api/parts")
+    .set("Cookie", global.signin())
+    .send({
+      title,
+      price: 15,
+      quantity: 2,
+    })
+    .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

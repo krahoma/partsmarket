@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
+import { natsWrapper } from "../../nats-wrapper";
 
 
 it("returns a 404 if the provided id does not exist", async () => {
@@ -121,4 +122,29 @@ it("updates the part provided valid inputs", async () => {
   expect(partResponse.body.title).toEqual("Part description new");
   expect(partResponse.body.price).toEqual(25);
   expect(partResponse.body.quantity).toEqual(4);
+});
+
+it("publishes an event", async () => {
+  const cookie = global.signin();
+
+  const response = await request(app)
+    .post("/api/parts")
+    .set("Cookie", cookie)
+    .send({
+      title: "Part description",
+      price: 20,
+      quantity: 2
+    });
+
+  await request(app)
+    .put(`/api/parts/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({
+      title: "Part description new",
+      price: 25,
+      quantity: 4
+    })
+    .expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
