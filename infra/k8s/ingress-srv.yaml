@@ -24,6 +24,13 @@ spec:
                 name: parts-srv
                 port:
                   number: 3000
+          - path: /api/orders/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: purchase-srv
+                port:
+                  number: 3000
           - path: /?(.*)
             pathType: Prefix
             backend:

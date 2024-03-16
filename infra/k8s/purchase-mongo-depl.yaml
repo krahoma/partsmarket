@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: purchase-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purchase-mongo
+  template:
+    metadata:
+      labels:
+        app: purchase-mongo
+    spec:
+      containers:
+        - name: purchase-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchase-mongo-srv
+spec:
+  selector:
+    app: purchase-mongo
+  ports:
+    - name: db-purchase
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

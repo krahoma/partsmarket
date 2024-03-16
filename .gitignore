@@ -4,3 +4,4 @@ client/.next
 common/node_modules
 parts/node_modules
 nats-test/node_modules
+purchase/node_modules
