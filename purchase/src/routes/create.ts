@@ -10,9 +10,11 @@ import {
 } from "@partsmarket/common";
 import { Part } from "../models/part";
 import { Order } from "../models/order";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
-const EXPIRATION_WINDOW_SECONDS = 15*60;
+const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
   "/api/orders",
@@ -41,23 +43,28 @@ router.post(
     }
 
     const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds()+EXPIRATION_WINDOW_SECONDS)
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
     const order = Order.build({
       userId: req.currentUser!.id,
       status: OrderStatus.Created,
       expiresAt: expiration,
-      part
+      part,
     });
 
     await order.save();
 
-    // await new PartCreatedPublisher(natsWrapper.client).publish({
-    //   id: part.id,
-    //   title: part.title,
-    //   price: part.price,
-    //   quantity: part.quantity,
-    //   userId: part.userId,
-    // });
+    await new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      part: {
+        id: part.id,
+        price: part.price,
+        quantity: part.quantity,
+      },
+    });
+    
     res.status(201).send(order);
   }
 );
