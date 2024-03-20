@@ -6,6 +6,8 @@ import {
   OrderStatus,
   requireAuth,
 } from "@partsmarket/common";
+import { OrderCancelledublisher } from "../events/publishers/order-cancelled-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -23,8 +25,16 @@ router.delete(
     order.status = OrderStatus.Cancelled;
     await order.save();
 
+    await new OrderCancelledublisher(natsWrapper.client).publish({
+      id: order.id,
+      part: {
+        id: order.part.id,
+        quantity: order.part.quantity,
+      },
+    });
+
     res.status(204).send(order);
   }
 );
 
-export {router as deleteOrderRouter};
+export { router as deleteOrderRouter };
