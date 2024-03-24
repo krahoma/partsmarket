@@ -15,7 +15,7 @@ const starUp = async () => {
   }
 
   app.listen(port, () => {
-    console.log("Auth app version 7");
+    console.log("Auth app version 8");
     console.log(`Example app listening on port ${port}!`);
   });
 };
