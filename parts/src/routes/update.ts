@@ -9,6 +9,7 @@ import {
   validateRequest,
   NotFoundError,
   NotAuthorizedError,
+  BadRequestError,
 } from "@partsmarket/common";
 
 const router = express.Router();
@@ -26,8 +27,13 @@ router.put(
   validateRequest,
   async (req: Request, res: Response) => {
     const part = await Part.findById(req.params.id);
+
     if (!part) {
       throw new NotFoundError();
+    }
+
+    if (part.orderId) {
+      throw new BadRequestError('Cannot edit a purchasing part');
     }
 
     if (part.userId !== req.currentUser!.id) {

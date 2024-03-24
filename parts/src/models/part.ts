@@ -9,11 +9,12 @@ interface PartAttrs {
 }
 
 interface PartDoc extends mongoose.Document {
+  version: number;
   title: string;
   price: number;
   quantity: number;
   userId: string;
-  version: number;
+  orderId?: string;
 }
 
 interface PartMode extends mongoose.Model<PartDoc> {
@@ -38,6 +39,9 @@ const partSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    orderId: {
+      type: String,
+    },
   },
   {
     toJSON: {
@@ -50,7 +54,7 @@ const partSchema = new mongoose.Schema(
   }
 );
 
-partSchema.set('versionKey', 'version');
+partSchema.set("versionKey", "version");
 partSchema.plugin(updateIfCurrentPlugin);
 partSchema.statics.build = (attrs: PartAttrs) => new Part(attrs);
 
