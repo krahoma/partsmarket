@@ -3,10 +3,12 @@ import { app } from "../../app";
 import { Part } from "../../models/part";
 import { Order, OrderStatus } from "../../models/order";
 import { natsWrapper } from "../../nats-wrapper";
+import mongoose from "mongoose";
 
 it("marks an order as cancelled", async () => {
   // create a part with Part Model
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "Descr",
     price: 20,
     quantity: 12,
@@ -37,6 +39,7 @@ it("marks an order as cancelled", async () => {
 it("emits a order cancelled event", async () => {
   // create a part with Part Model
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "Descr",
     price: 20,
     quantity: 12,

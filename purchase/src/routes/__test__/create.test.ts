@@ -17,6 +17,7 @@ it("returns an error if the part does not exist", async () => {
 
 it("returns an error if the part is already reserved", async () => {
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "Part Description",
     price: 20,
     quantity: 2,
@@ -41,6 +42,7 @@ it("returns an error if the part is already reserved", async () => {
 
 it("reserves a part", async () => {
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "descr",
     price: 20,
     quantity: 2,
@@ -56,6 +58,7 @@ it("reserves a part", async () => {
 
 it("emits an order created event", async () => {
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "descr",
     price: 20,
     quantity: 2,

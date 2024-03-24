@@ -27,6 +27,7 @@ router.delete(
 
     await new OrderCancelledublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       part: {
         id: order.part.id,
         quantity: order.part.quantity,

@@ -1,10 +1,11 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Order } from '../../models/order';
 import { Part } from '../../models/part';
+import mongoose from 'mongoose';
 
 const buildPart = async () => {
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Part Description',
     price: 11,
     quantity: 2

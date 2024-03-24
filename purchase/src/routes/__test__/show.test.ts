@@ -1,10 +1,12 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Part } from '../../models/part';
+import mongoose from 'mongoose';
 
 it('fetches the order', async () => {
   // Create a part
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Part description',
     price: 20,
     quantity:5
@@ -32,6 +34,7 @@ it('fetches the order', async () => {
 it('returns an error if one user tries to fetch another users order', async () => {
   // Create a part
   const part = Part.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Description',
     price: 13,
     quantity: 2

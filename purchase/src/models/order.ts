@@ -1,5 +1,6 @@
 import { OrderStatus } from "@partsmarket/common";
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { PartDoc } from "./part";
 
 interface OrderAttrs {
@@ -10,6 +11,7 @@ interface OrderAttrs {
 }
 
 interface OrderDoc extends mongoose.Document {
+  version: number;
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
@@ -51,6 +53,9 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => new Order(attrs);
 
