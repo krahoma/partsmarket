@@ -30,6 +30,7 @@ router.post(
     await part.save();
     await new PartCreatedPublisher(natsWrapper.client).publish({
       id: part.id,
+      version: part.version,
       title: part.title,
       price: part.price,
       quantity: part.quantity,

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface PartAttrs {
   title: string;
@@ -12,6 +13,7 @@ interface PartDoc extends mongoose.Document {
   price: number;
   quantity: number;
   userId: string;
+  version: number;
 }
 
 interface PartMode extends mongoose.Model<PartDoc> {
@@ -48,6 +50,8 @@ const partSchema = new mongoose.Schema(
   }
 );
 
+partSchema.set('versionKey', 'version');
+partSchema.plugin(updateIfCurrentPlugin);
 partSchema.statics.build = (attrs: PartAttrs) => new Part(attrs);
 
 const Part = mongoose.model<PartDoc, PartMode>("Part", partSchema);

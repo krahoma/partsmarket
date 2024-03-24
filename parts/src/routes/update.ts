@@ -42,6 +42,7 @@ router.put(
     await part.save();
     new PartUpdatedPublisher(natsWrapper.client).publish({
       id: part.id,
+      version: part.version,
       title: part.title,
       price: part.price,
       quantity: part.quantity,
