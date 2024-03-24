@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper";
 import { app } from "./app";
+import { PartCreatedListener } from "./events/listeners/part-created-listener";
+import { PartUpdatedListener } from "./events/listeners/part-updated-listener";
 
 const port = 3000;
 
@@ -28,6 +30,9 @@ const starUp = async () => {
       console.log("NATS connection closed!");
       process.exit();
     });
+
+    new PartCreatedListener(natsWrapper.client).listen();
+    new PartUpdatedListener(natsWrapper.client).listen();
 
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
