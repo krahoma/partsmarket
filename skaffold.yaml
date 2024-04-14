@@ -25,6 +25,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mkrekhovetskyi/expiration #us.gcr.io/partsmarket-415520/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .        
     - image: mkrekhovetskyi/purchase #us.gcr.io/partsmarket-415520/purchase
       context: purchase
       docker:
