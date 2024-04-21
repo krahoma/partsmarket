@@ -49,3 +49,11 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
+    - image: mkrekhovetskyi/payments #us.gcr.io/partsmarket-415520/parts
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
