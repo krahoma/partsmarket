@@ -8,6 +8,7 @@ interface OrderAttrs {
   status: OrderStatus;
   expiresAt: Date;
   part: PartDoc;
+  paymentId?: string;
 }
 
 interface OrderDoc extends mongoose.Document {
@@ -16,6 +17,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   part: PartDoc;
+  paymentId?: string;
 }
 
 interface OrderMode extends mongoose.Model<OrderDoc> {
@@ -41,6 +43,10 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Part",
       require: true,
+    },
+    paymentId: {
+      type: String,
+      require: false,
     },
   },
   {

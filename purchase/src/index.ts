@@ -4,6 +4,7 @@ import { app } from "./app";
 import { PartCreatedListener } from "./events/listeners/part-created-listener";
 import { PartUpdatedListener } from "./events/listeners/part-updated-listener";
 import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
+import { PaymentCreatedListener } from "./events/listeners/payment-created-listener";
 
 const port = 3000;
 
@@ -35,6 +36,7 @@ const starUp = async () => {
     new PartCreatedListener(natsWrapper.client).listen();
     new PartUpdatedListener(natsWrapper.client).listen();
     new ExpirationCompleteListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
