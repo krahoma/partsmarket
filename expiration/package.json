@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@partsmarket/common": "^1.0.12",
+    "@partsmarket/common": "^1.0.13",
     "@types/bull": "^4.10.0",
     "bull": "^4.12.2",
     "node-nats-streaming": "^0.3.2",
