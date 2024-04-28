@@ -1,7 +1,9 @@
 name: tests-parts
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'parts/**'
 
 jobs:
   build:
