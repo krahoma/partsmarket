@@ -48,7 +48,7 @@ const starUp = async () => {
   }
 
   app.listen(port, () => {
-    console.log("Purchase app version 1");
+    console.log("Purchase app version 3");
     console.log(`Purchase app listening on port ${port}!`);
   });
 };

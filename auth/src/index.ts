@@ -9,13 +9,12 @@ const starUp = async () => {
   }
   try {
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log("Connected to MongoDB");
   } catch (err) {
     console.log(err); 
   }
 
   app.listen(port, () => {
-    console.log("Auth app version 9");
+    console.log("Auth app version 10");
     console.log(`Auth app listening on port ${port}!`);
   });
 };
