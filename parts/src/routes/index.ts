@@ -4,7 +4,9 @@ import { Part } from "../models/part";
 const router = express.Router();
 
 router.get("/api/parts/", async (req: Request, res: Response) => {
-    const parts = await Part.find({});
+    const parts = await Part.find({
+        orderId: undefined
+    });
     res.send(parts);
 });
 
