@@ -43,7 +43,7 @@ const starUp = async () => {
   }
 
   app.listen(port, () => {
-    console.log("Parts app version 7");
+    console.log("Parts app version 3");
     console.log(`Part app listening on port ${port}!`);
   });
 };
