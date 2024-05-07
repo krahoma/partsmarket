@@ -29,7 +29,6 @@ const LandingPage = ({ currentUser, parts }) => {
             </tbody>
         </table>
     </div>);
-    //
 
     // if (currentUser) {
     //     return <h1>Home page <p>You {currentUser.email} are signed in</p></h1>

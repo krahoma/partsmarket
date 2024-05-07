@@ -27,7 +27,7 @@ const starUp = async () => {
   } catch (err) {
     console.log("Error:" + err);
   }
-  console.log("Expiration app version 1");
+  console.log("Expiration app version 1. Started...");
 };
 
 starUp();
