@@ -44,7 +44,8 @@ const starUp = async () => {
   }
 
   app.listen(port, () => {
-    console.log(`Payment app version 3 listening on port ${port}!`);
+    console.log("Payments app version 1");
+    console.log(`Payment app listening on port ${port}. Started`);
   });
 };
 
