@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: partsmarket.com
+      http:
+        paths:
+          - path: /api/users/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /api/parts/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: parts-srv
+                port:
+                  number: 3000
+          - path: /api/orders/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: purchase-srv
+                port:
+                  number: 3000
+          - path: /api/payments/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: payments-srv
+                port:
+                  number: 3000
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
